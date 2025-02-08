@@ -18,8 +18,11 @@ Send notification to telegram when fail2ban ban an IP address and unband an IP a
 #### Fail2ban
 
 - Create a copy of jail.conf `cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local`.
-- Create ban rules in jail.local `<br>`
-  ignoreip = 127.0.0.1/8 192.168.1.101bantime = 3600findtime = 120maxretry = 3
+- Create ban rules in jail.local 
+  ignoreip = 127.0.0.1/8 192.168.1.101
+  bantime = 3600
+  findtime = 120
+  maxretry = 3
 - If you want to protect SSH with fail2ban add this to [sshd]
   enabled = true
   filter  = sshd
