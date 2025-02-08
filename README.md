@@ -17,24 +17,23 @@ Send notification to telegram when fail2ban ban an IP address and unband an IP a
 
 #### Fail2ban
 
-- Create a copy of jail.conf `cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local`.
-- Create ban rules in jail.local 
-  ignoreip = 127.0.0.1/8 192.168.1.101
-  bantime = 3600
-  findtime = 120
-  maxretry = 3
-- If you want to protect SSH with fail2ban add this to [sshd]
-  enabled = true
-  filter  = sshd
-  maxretry = 3
-  logpath = /var/log/auth.log
-  action  = iptables[name=SSH, port=22, protocol=tcp]
-  telegram
-- Make script directory to place our shell script `sudo mkdir /etc/fail2ban/scripts/`in the following directory add `fail2ban-telegram.sh`
-- Copy telegram.conf to `/etc/fail2ban/action.d/` directory `cp telegram.conf /etc/fail2ban/action.d/`
+- Download and configure the `jail.conf ` file
+
+  ```bash
+  curl -sSL https://raw.githubusercontent.com/lovebai/fail2ban-telegram-notification/refs/heads/master/jail.local -o /etc/fail2ban/jail.d/defaults.conf
+  ```
+- Download `telegram.conf`
+
+  ```bash
+  curl -sSL https://raw.githubusercontent.com/lovebai/fail2ban-telegram-notification/refs/heads/master/telegram.conf -o /etc/fail2ban/action.d/telegram.conf
+  ```
+- Download `fail2ban-telegram.sh`
+
+  ```bash
+  curl -sSL https://raw.githubusercontent.com/lovebai/fail2ban-telegram-notification/refs/heads/master/fail2ban-telegram.sh -o /etc/fail2ban/scripts/fail2ban-telegram.sh && chmod +x /etc/fail2ban/scripts/fail2ban-telegram.sh
+  ```
 - Edit fail2ban-telegram.sh and replace the `apiToken` and `chatId` with your api. You must create telegram bot first and get the api key [here](https://www.sohamkamani.com/blog/2016/09/21/making-a-telegram-bot/)
 
 ### Start the service
 
-systemctl start ssh-server
 systemctl start fail2ban
